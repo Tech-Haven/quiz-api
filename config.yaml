@@ -1,0 +1,15 @@
+# Address to start HTTP server on
+#
+# listen_addr: 0.0.0.0:8080
+listen_addr: 0.0.0.0:8080
+
+# Mongo connection details
+#
+# mongo:
+#   host: localhost
+#   port: 27017
+#   database: database
+mongo:
+  host: localhost
+  port: 27017
+  database: examcompass

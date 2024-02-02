@@ -9,7 +9,9 @@ listen_addr: 0.0.0.0:8080
 #   host: localhost
 #   port: 27017
 #   database: database
+#   collection: collection_name
 mongo:
   host: localhost
   port: 27017
   database: examcompass
+  collection: qa

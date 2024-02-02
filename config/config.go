@@ -13,9 +13,10 @@ import (
 type Config struct {
 	Listen_Addr string `yaml:"listen_addr" env:"LISTEN_ADDR"`
 	Mongo       struct {
-		Host     string `yaml:"host" env:"MONGO_HOST"`
-		Port     string `yaml:"port" env:"MONGO_PORT"`
-		Database string `yaml:"database" env:"MONGO_DATABASE"`
+		Host       string `yaml:"host" env:"MONGO_HOST"`
+		Port       string `yaml:"port" env:"MONGO_PORT"`
+		Database   string `yaml:"database" env:"MONGO_DATABASE"`
+		Collection string `yaml:"collection" env:"MONGO_COLLECTION"`
 	}
 }
 

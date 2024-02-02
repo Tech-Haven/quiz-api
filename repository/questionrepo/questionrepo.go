@@ -43,3 +43,20 @@ func (repo *QuestionRepo) GetQuestions(tags []string) ([]models.Question, error)
 
 	return results, nil
 }
+
+// Returns 1 random question from the database
+func (repo *QuestionRepo) GetRandomQuestion() ([]models.Question, error) {
+	coll := repo.db.Database(repo.config.Mongo.Database).Collection(repo.config.Mongo.Collection)
+
+	cursor, err := coll.Aggregate(context.TODO(), mongo.Pipeline{bson.D{{"$sample", bson.D{{"size", 1}}}}})
+	if err != nil {
+		panic(err)
+	}
+
+	var results []models.Question
+	if err = cursor.All(context.TODO(), &results); err != nil {
+		panic(err)
+	}
+
+	return results, nil
+}

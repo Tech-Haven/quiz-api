@@ -12,4 +12,5 @@ func Routes(e *echo.Echo, c *controller.Controllers) {
 
 	// Question Endpoints
 	e.GET("/api/questions", c.QuestionController.GetQuestions())
+	e.GET("/api/randomQuestion", c.QuestionController.GetRandomQuestion())
 }

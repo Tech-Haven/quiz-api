@@ -12,6 +12,7 @@ import (
 
 type repository interface {
 	GetQuestions(tags []string) ([]models.Question, error)
+	GetRandomQuestion() ([]models.Question, error)
 }
 
 type Controller struct {
@@ -40,5 +41,17 @@ func (m *Controller) GetQuestions() echo.HandlerFunc {
 		}
 
 		return c.JSON(http.StatusOK, responses.HTTPResponse{Status: http.StatusOK, Message: responses.Success, Data: &echo.Map{"data": questions}})
+	}
+}
+
+func (m *Controller) GetRandomQuestion() echo.HandlerFunc {
+	return func(c echo.Context) error {
+		question, err := m.service.GetRandomQuestion()
+
+		if err != nil {
+			return c.JSON(http.StatusInternalServerError, responses.HTTPResponse{Status: http.StatusInternalServerError, Message: responses.Error, Data: &echo.Map{"data": err.Error()}})
+		}
+
+		return c.JSON(http.StatusOK, responses.HTTPResponse{Status: http.StatusOK, Message: responses.Success, Data: &echo.Map{"data": question}})
 	}
 }

@@ -5,12 +5,13 @@ import (
 	"quiz-api/models"
 	"quiz-api/repository/questionrepo"
 	"quiz-api/responses"
+	"quiz-api/utils"
 
 	"github.com/labstack/echo/v4"
 )
 
 type repository interface {
-	GetQuestions() ([]models.Question, error)
+	GetQuestions(tags []string) ([]models.Question, error)
 }
 
 type Controller struct {
@@ -25,7 +26,14 @@ func InitController(questionRepo *questionrepo.QuestionRepo) *Controller {
 
 func (m *Controller) GetQuestions() echo.HandlerFunc {
 	return func(c echo.Context) error {
-		questions, err := m.service.GetQuestions()
+
+		tags, err := utils.ParseQueryParamsTags(c)
+
+		if err != nil {
+			return c.JSON(http.StatusInternalServerError, responses.HTTPResponse{Status: http.StatusInternalServerError, Message: responses.Error, Data: &echo.Map{"data": err.Error()}})
+		}
+
+		questions, err := m.service.GetQuestions(tags)
 
 		if err != nil {
 			return c.JSON(http.StatusInternalServerError, responses.HTTPResponse{Status: http.StatusInternalServerError, Message: responses.Error, Data: &echo.Map{"data": err.Error()}})

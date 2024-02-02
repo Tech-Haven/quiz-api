@@ -22,10 +22,14 @@ func NewQuestionRepo(db *mongo.Client, config *config.Config) *QuestionRepo {
 }
 
 // Returns all questions from the database
-func (repo *QuestionRepo) GetQuestions() ([]models.Question, error) {
+func (repo *QuestionRepo) GetQuestions(tags []string) ([]models.Question, error) {
 	coll := repo.db.Database(repo.config.Mongo.Database).Collection(repo.config.Mongo.Collection)
 
 	filter := bson.D{{}}
+
+	if len(tags) > 0 {
+		filter = bson.D{{"tags", bson.D{{"$all", tags}}}}
+	}
 
 	cursor, err := coll.Find(context.TODO(), filter)
 	if err != nil {
@@ -38,5 +42,4 @@ func (repo *QuestionRepo) GetQuestions() ([]models.Question, error) {
 	}
 
 	return results, nil
-
 }

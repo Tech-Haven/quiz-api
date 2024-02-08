@@ -45,10 +45,21 @@ func (repo *QuestionRepo) GetQuestions(tags []string) ([]models.Question, error)
 }
 
 // Returns 1 random question from the database
-func (repo *QuestionRepo) GetRandomQuestion() ([]models.Question, error) {
+func (repo *QuestionRepo) GetRandomQuestion(tags []string) ([]models.Question, error) {
 	coll := repo.db.Database(repo.config.Mongo.Database).Collection(repo.config.Mongo.Collection)
 
-	cursor, err := coll.Aggregate(context.TODO(), mongo.Pipeline{bson.D{{"$sample", bson.D{{"size", 1}}}}})
+	selectOneStage := bson.D{{"$sample", bson.D{{"size", 1}}}}
+
+	var cursor *mongo.Cursor
+	var err error
+
+	if len(tags) > 0 {
+		filter := bson.D{{"$match", bson.D{{"tags", bson.D{{"$all", tags}}}}}}
+		cursor, err = coll.Aggregate(context.TODO(), mongo.Pipeline{filter, selectOneStage})
+	} else {
+		cursor, err = coll.Aggregate(context.TODO(), mongo.Pipeline{selectOneStage})
+	}
+
 	if err != nil {
 		panic(err)
 	}

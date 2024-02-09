@@ -24,7 +24,7 @@ func ConnectDatabase(config *config.Config) *mongo.Client {
 }
 
 func connectMongo(c *config.Config) *mongo.Client {
-	clientOptions := options.Client().ApplyURI(fmt.Sprintf("mongodb://%s:%s", c.Mongo.Host, c.Mongo.Port))
+	clientOptions := options.Client().ApplyURI(fmt.Sprintf("mongodb://%s:%s@%s:%s", c.Mongo.User, c.Mongo.Password, c.Mongo.Host, c.Mongo.Port))
 	client, err := mongo.Connect(ctx, clientOptions)
 	if err != nil {
 		log.Fatal(err)

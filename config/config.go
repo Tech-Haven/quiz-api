@@ -15,6 +15,8 @@ type Config struct {
 	Mongo       struct {
 		Host       string `yaml:"host" env:"MONGO_HOST"`
 		Port       string `yaml:"port" env:"MONGO_PORT"`
+		User       string `yaml:"user" env:"MONGO_USER"`
+		Password   string `yaml:"password" env:"MONGO_PASSWORD"`
 		Database   string `yaml:"database" env:"MONGO_DATABASE"`
 		Collection string `yaml:"collection" env:"MONGO_COLLECTION"`
 	}

@@ -8,10 +8,14 @@ listen_addr: 0.0.0.0:8080
 # mongo:
 #   host: localhost
 #   port: 27017
+#   user: root
+#   password: example
 #   database: database
 #   collection: collection_name
 mongo:
-  host: localhost
+  host: 10.100.10.12
   port: 27017
+  user: root
+  password: example
   database: examcompass
   collection: qa
